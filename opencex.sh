@@ -1,4 +1,6 @@
 #!/bin/bash
+# Đọc các biến từ file config.env
+source "$(dirname "$0")/config.env"
 
 if [ $(dpkg-query -W -f='${Status}' docker-ce 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     echo "Docker not found, install docker..."
@@ -69,59 +71,33 @@ SUPPORT_EMAIL - email address of support
 
 -----------------------------------------------------------
 YOLLOPUKKI`"
+ 
+source "$(dirname "$0")/config.env"
 
-while true; do
-
-echo -n "PROJECT_NAME* (i.e. SuperExchange): "
-read PROJECT_NAME
+ 
 export PROJECT_NAME
-
-echo -n "DOMAIN* (i.e. test.com): "
-read DOMAIN
 export DOMAIN
-
-echo -n "ADMIN_BASE_URL* (i.e: admin): "
-read ADMIN_BASE_URL
 export ADMIN_BASE_URL
-
-echo -n "ADMIN_USER* (i.e: admin@exchange.net): "
-read ADMIN_USER
 export ADMIN_USER
-
-echo -n "ADMIN_MASTERPASS*: "
-read ADMIN_MASTERPASS
 export ADMIN_MASTERPASS
-
-echo -n "SUPPORT_EMAIL: "
-read SUPPORT_EMAIL
 export SUPPORT_EMAIL
-
-#TELEGRAM - telegram chat URL (i.e. opencex)
-#FACEBOOK - facebook page URL
-#TWITTER - twitter page URL
-#LINKEDIN - linkedin page URL
-
-TELEGRAM=opencex
-FACEBOOK=polygant
-TWITTER=polygant
-LINKEDIN=polygant
-LOGO=
-
 export TELEGRAM
 export FACEBOOK
 export TWITTER
 export LINKEDIN
 export LOGO
 
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
-
+echo "PROJECT_NAME: $PROJECT_NAME"
+echo "DOMAIN: $DOMAIN"
+echo "ADMIN_BASE_URL: $ADMIN_BASE_URL"
+echo "ADMIN_USER: $ADMIN_USER"
+echo "ADMIN_MASTERPASS: $ADMIN_MASTERPASS"
+echo "SUPPORT_EMAIL: $SUPPORT_EMAIL"
+echo "TELEGRAM: $TELEGRAM"
+echo "FACEBOOK: $FACEBOOK"
+echo "TWITTER: $TWITTER"
+echo "LINKEDIN: $LINKEDIN"
+echo "LOGO: $LOGO"
 
 echo "`cat <<YOLLOPUKKI
 
@@ -138,39 +114,23 @@ TELEGRAM_BOT_TOKEN - token for the Alert bot
 -----------------------------------------------------------
 YOLLOPUKKI`"
 
-while true; do
+# Đọc các biến từ file config.env
+source "$(dirname "$0")/config.env"
 
-echo -n "RECAPTCHA*: "
-read RECAPTCHA
+source "$(dirname "$0")/config.env"
+
+# Sử dụng các biến đã được đọc từ config.env
 export RECAPTCHA
-
-echo -n "RECAPTCHA_SECRET*: "
-read RECAPTCHA_SECRET
 export RECAPTCHA_SECRET
-
-echo -n "TELEGRAM_CHAT_ID: "
-read TELEGRAM_CHAT_ID
 export TELEGRAM_CHAT_ID
-
-echo -n "TELEGRAM_ALERTS_CHAT_ID: "
-read TELEGRAM_ALERTS_CHAT_ID
 export TELEGRAM_ALERTS_CHAT_ID
-
-echo -n "TELEGRAM_BOT_TOKEN: "
-read TELEGRAM_BOT_TOKEN
 export TELEGRAM_BOT_TOKEN
 
-# CAPTCHA_ALLOWED_IP_MASK=172\.\d{1,3}\.\d{1,3}\.\d{1,3}
-# export CAPTCHA_ALLOWED_IP_MASK
-
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
+echo "RECAPTCHA: $RECAPTCHA"
+echo "RECAPTCHA_SECRET: $RECAPTCHA_SECRET"
+echo "TELEGRAM_CHAT_ID: $TELEGRAM_CHAT_ID"
+echo "TELEGRAM_ALERTS_CHAT_ID: $TELEGRAM_ALERTS_CHAT_ID"
+echo "TELEGRAM_BOT_TOKEN: $TELEGRAM_BOT_TOKEN"
 
 
 echo "`cat <<YOLLOPUKKI
@@ -187,29 +147,16 @@ ETHERSCAN_KEY* - used for the ETH blockchain data
 -----------------------------------------------------------
 YOLLOPUKKI`"
 
-while true; do
+source "$(dirname "$0")/config.env"
 
-echo -n "INFURA_API_KEY*: "
-read INFURA_API_KEY
+# Sử dụng các biến đã được đọc từ config.env
 export INFURA_API_KEY
-
-echo -n "INFURA_API_SECRET*: "
-read INFURA_API_SECRET
 export INFURA_API_SECRET
-
-echo -n "ETHERSCAN_KEY*: "
-read ETHERSCAN_KEY
 export ETHERSCAN_KEY
 
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
-
+echo "INFURA_API_KEY: $INFURA_API_KEY"
+echo "INFURA_API_SECRET: $INFURA_API_SECRET"
+echo "ETHERSCAN_KEY: $ETHERSCAN_KEY"
 
 echo "`cat <<YOLLOPUKKI
 
@@ -223,24 +170,12 @@ ETH_SAFE_ADDR* - ethereum address. All ETH and ERC-20 deposits go there
 -----------------------------------------------------------
 YOLLOPUKKI`"
 
-while true; do
-
-echo -n "BTC_SAFE_ADDR*: "
-read BTC_SAFE_ADDR
+source "$(dirname "$0")/config.env"
 export BTC_SAFE_ADDR
+export ETH_SAFE_ADDR 
 
-echo -n "ETH_SAFE_ADDR*: "
-read ETH_SAFE_ADDR
-export ETH_SAFE_ADDR
-
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
+echo "BTC_SAFE_ADDR: $ETH_SAFE_ADDR"
+echo "ETH_SAFE_ADDR: $ETH_SAFE_ADDRT"
 
 
 echo "`cat <<YOLLOPUKKI
@@ -257,35 +192,21 @@ BNB_SAFE_ADDR* - binance smart chain address. All BNB and BEP-20 deposits go the
 ---------------------------------------------------------------------------------------
 YOLLOPUKKI`"
 
+source "$(dirname "$0")/config.env"
 
-while true; do
+# Sử dụng các biến đã được đọc từ config.env
 
-echo -n "ENABLED_BNB (True/False): "
-read ENABLED_BNB
-export ENABLED_BNB
 
 if [ "$ENABLED_BNB" = "True" ]; then
-
-echo -n "BSCSCAN_KEY*: "
-read BSCSCAN_KEY
-export BSCSCAN_KEY
-
-echo -n "BNB_SAFE_ADDR*: "
-read BNB_SAFE_ADDR
-export BNB_SAFE_ADDR
-
-
+    export ENABLED_BNB
+    export BSCSCAN_KEY
+    export BNB_SAFE_ADDR
+    echo "ENABLED_BNB: $ENABLED_BNB"
+    echo "BSCSCAN_KEY: $BSCSCAN_KEY"
+    echo "BNB_SAFE_ADDR: $BNB_SAFE_ADDR"
+else
+    echo "Binance BSC Blockchain support is disabled."
 fi
-
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
-
 
 
 
@@ -305,34 +226,21 @@ TRX_SAFE_ADDR* - tron address. All TRX and TRC-20 deposits go there
 
 YOLLOPUKKI`"
 
+source "$(dirname "$0")/config.env"
 
-while true; do
+# Sử dụng các biến đã được đọc từ config.env
 
-echo -n "ENABLED_TRON (True/False): "
-read ENABLED_TRON
-export ENABLED_TRON
 
 if [ "$ENABLED_TRON" = "True" ]; then
-
-echo -n "TRONGRID_API_KEY*: "
-read TRONGRID_API_KEY
-export TRONGRID_API_KEY
-
-echo -n "TRX_SAFE_ADDR*: "
-read TRX_SAFE_ADDR
-export TRX_SAFE_ADDR
-
-
+    export ENABLED_TRON
+    export TRONGRID_API_KEY
+    export TRX_SAFE_ADDR
+    echo "ENABLED_TRON: $ENABLED_TRON"
+    echo "TRONGRID_API_KEY: $TRONGRID_API_KEY"
+    echo "TRX_SAFE_ADDR: $TRX_SAFE_ADDR"
+else
+    echo "Tron Blockchain support is disabled."
 fi
-
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
 
 
 echo "`cat <<YOLLOPUKKI
@@ -349,39 +257,25 @@ WON_SAFE_ADDR* - Won address. All WON and ERC-20 (WON) deposits go there
 
 YOLLOPUKKI`"
 
+source "$(dirname "$0")/config.env"
 
-while true; do
+# Sử dụng các biến đã được đọc từ config.env
 
-echo -n "ENABLED_WON (True/False): "
-read ENABLED_WON
-export ENABLED_WON
-COMMON_TASKS_WON=false
-export COMMON_TASKS_WON
-if [ "$ENABLED_WON" = "True" ]; then
 
-COMMON_TASKS_WON=true
-export COMMON_TASKS_WON
+if [ "$ENABLED_WON" = "True" ]; then    
+ 
+    export ENABLED_WON
+    export COMMON_TASKS_WON
+    export WONSCAN_KEY
+    export WON_SAFE_ADDR
 
-echo -n "WONSCAN_KEY*: "
-read WONSCAN_KEY
-export WONSCAN_KEY
-
-echo -n "WON_SAFE_ADDR*: "
-read WON_SAFE_ADDR
-export WON_SAFE_ADDR
-
+    echo "ENABLED_WON: $ENABLED_WON"
+    echo "COMMON_TASKS_WON: $COMMON_TASKS_WON"
+    echo "WONSCAN_KEY: $WONSCAN_KEY"
+    echo "WON_SAFE_ADDR: $WON_SAFE_ADDR"
+else
+    echo "WON Blockchain support is disabled."
 fi
-
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
-
-
 
 echo "`cat <<YOLLOPUKKI
 
@@ -393,37 +287,20 @@ Used for sending notifications and alerts.
 
 -----------------------------------------------------------
 YOLLOPUKKI`"
+source "$(dirname "$0")/config.env"
 
-while true; do
-
-echo -n "EMAIL_HOST*: "
-read EMAIL_HOST
+# Sử dụng các biến đã được đọc từ config.env
 export EMAIL_HOST
-
-echo -n "EMAIL_HOST_USER*: "
-read EMAIL_HOST_USER
 export EMAIL_HOST_USER
-
-echo -n "EMAIL_HOST_PASSWORD*: "
-read EMAIL_HOST_PASSWORD
 export EMAIL_HOST_PASSWORD
-
-echo -n "EMAIL_PORT*: "
-read EMAIL_PORT
 export EMAIL_PORT
-
-echo -n "EMAIL_USE_TLS* (True/False): "
-read EMAIL_USE_TLS
 export EMAIL_USE_TLS
 
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
+echo "EMAIL_HOST: $EMAIL_HOST"
+echo "EMAIL_HOST_USER: $EMAIL_HOST_USER"
+echo "EMAIL_HOST_PASSWORD: $EMAIL_HOST_PASSWORD"
+echo "EMAIL_PORT: $EMAIL_PORT"
+echo "EMAIL_USE_TLS: $EMAIL_USE_TLS"
 
 
 echo "`cat <<YOLLOPUKKI
@@ -438,40 +315,24 @@ to turn it off.
 
 -----------------------------------------------------------
 YOLLOPUKKI`"
+source "$(dirname "$0")/config.env"
 
-while true; do
-
-echo -n "IS_SMS_ENABLED (True/False): "
-read IS_SMS_ENABLED
-export IS_SMS_ENABLED
-
+# Sử dụng các biến đã được đọc từ config.env
 if [ "$IS_SMS_ENABLED" = "True" ]; then
-echo -n "TWILIO_ACCOUNT_SID: "
-read TWILIO_ACCOUNT_SID
-export TWILIO_ACCOUNT_SID
+    export IS_SMS_ENABLED
+    export TWILIO_ACCOUNT_SID
+    export TWILIO_AUTH_TOKEN
+    export TWILIO_VERIFY_SID
+    export TWILIO_PHONE
 
-echo -n "TWILIO_AUTH_TOKEN: "
-read TWILIO_AUTH_TOKEN
-export TWILIO_AUTH_TOKEN
-
-echo -n "TWILIO_VERIFY_SID: "
-read TWILIO_VERIFY_SID
-export TWILIO_VERIFY_SID
-
-echo -n "TWILIO_PHONE: "
-read TWILIO_PHONE
-export TWILIO_PHONE
-echo ""
+    echo "IS_SMS_ENABLED: $IS_SMS_ENABLED"
+    echo "TWILIO_ACCOUNT_SID: $TWILIO_ACCOUNT_SID"
+    echo "TWILIO_AUTH_TOKEN: $TWILIO_AUTH_TOKEN"
+    echo "TWILIO_VERIFY_SID: $TWILIO_VERIFY_SID"
+    echo "TWILIO_PHONE: $TWILIO_PHONE"
+else
+    echo "SMS Service is disabled."
 fi
-
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
 
 echo "`cat <<YOLLOPUKKI
 
@@ -486,34 +347,22 @@ to turn it off.
 -----------------------------------------------------------
 YOLLOPUKKI`"
 
-while true; do
+source "$(dirname "$0")/config.env"
 
-echo -n "IS_KYC_ENABLED (True/False): "
-read IS_KYC_ENABLED
-export IS_KYC_ENABLED
-
+# Sử dụng các biến đã được đọc từ config.env
 if [ "$IS_KYC_ENABLED" = "True" ]; then
-echo -n "SUMSUB_SECRET_KEY: "
-read SUMSUB_SECRET_KEY
-export SUMSUB_SECRET_KEY
+    export IS_KYC_ENABLED
+    export SUMSUB_SECRET_KEY
+    export SUMSUB_APP_TOKEN
+    export SUMSUM_CALLBACK_VALIDATION_SECRET
 
-echo -n "SUMSUB_APP_TOKEN: "
-read SUMSUB_APP_TOKEN
-export SUMSUB_APP_TOKEN
-
-echo -n "SUMSUM_CALLBACK_VALIDATION_SECRET: "
-read SUMSUM_CALLBACK_VALIDATION_SECRET
-export SUMSUM_CALLBACK_VALIDATION_SECRET
+    echo "IS_KYC_ENABLED: $IS_KYC_ENABLED"
+    echo "SUMSUB_SECRET_KEY: $SUMSUB_SECRET_KEY"
+    echo "SUMSUB_APP_TOKEN: $SUMSUB_APP_TOKEN"
+    echo "SUMSUM_CALLBACK_VALIDATION_SECRET: $SUMSUM_CALLBACK_VALIDATION_SECRET"
+else
+    echo "KYC Service is disabled."
 fi
-
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
 
 
 echo "`cat <<YOLLOPUKKI
@@ -529,40 +378,24 @@ to turn it off.
 -----------------------------------------------------------
 YOLLOPUKKI`"
 
-while true; do
+source "$(dirname "$0")/config.env"
 
-echo -n "IS_KYT_ENABLED (True/False): "
-read IS_KYT_ENABLED
-export IS_KYT_ENABLED
-
+# Sử dụng các biến đã được đọc từ config.env
 if [ "$IS_KYT_ENABLED" = "True" ]; then
+    export IS_KYT_ENABLED
+    export SCORECHAIN_BITCOIN_TOKEN
+    export SCORECHAIN_ETHEREUM_TOKEN
+    export SCORECHAIN_TRON_TOKEN
+    export SCORECHAIN_BNB_TOKEN
 
-echo -n "SCORECHAIN_BITCOIN_TOKEN: "
-read SCORECHAIN_BITCOIN_TOKEN
-export SCORECHAIN_BITCOIN_TOKEN
-
-echo -n "SCORECHAIN_ETHEREUM_TOKEN: "
-read SCORECHAIN_ETHEREUM_TOKEN
-export SCORECHAIN_ETHEREUM_TOKEN
-
-echo -n "SCORECHAIN_TRON_TOKEN: "
-read SCORECHAIN_TRON_TOKEN
-export SCORECHAIN_TRON_TOKEN
-
-echo -n "SCORECHAIN_BNB_TOKEN: "
-read SCORECHAIN_BNB_TOKEN
-export SCORECHAIN_BNB_TOKEN
-
+    echo "IS_KYT_ENABLED: $IS_KYT_ENABLED"
+    echo "SCORECHAIN_BITCOIN_TOKEN: $SCORECHAIN_BITCOIN_TOKEN"
+    echo "SCORECHAIN_ETHEREUM_TOKEN: $SCORECHAIN_ETHEREUM_TOKEN"
+    echo "SCORECHAIN_TRON_TOKEN: $SCORECHAIN_TRON_TOKEN"
+    echo "SCORECHAIN_BNB_TOKEN: $SCORECHAIN_BNB_TOKEN"
+else
+    echo "KYT Service is disabled."
 fi
-
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
 
 echo "`cat <<YOLLOPUKKI
 
@@ -577,20 +410,24 @@ to turn it off.
 -----------------------------------------------------------
 YOLLOPUKKI`"
 
-while true; do
+source "$(dirname "$0")/config.env"
 
-echo -n "IS_HUMMINGBOT_ENABLED (True/False): "
-read IS_HUMMINGBOT_ENABLED
-export IS_HUMMINGBOT_ENABLED
+# Sử dụng các biến đã được đọc từ config.env
+if [ "$IS_KYT_ENABLED" = "True" ]; then
+    export IS_KYT_ENABLED
+    export SCORECHAIN_BITCOIN_TOKEN
+    export SCORECHAIN_ETHEREUM_TOKEN
+    export SCORECHAIN_TRON_TOKEN
+    export SCORECHAIN_BNB_TOKEN
 
-echo "-----------------------------------------------------------"
-    read -p "IS EVERYTHING CORRECT? (y or n)" YESORNO
-    case $YESORNO in
-        [Yy]* ) break;;
-        [Nn]* ) echo "Re-enter the parameters.";;
-        * ) break;;
-    esac
-done
+    echo "IS_KYT_ENABLED: $IS_KYT_ENABLED"
+    echo "SCORECHAIN_BITCOIN_TOKEN: $SCORECHAIN_BITCOIN_TOKEN"
+    echo "SCORECHAIN_ETHEREUM_TOKEN: $SCORECHAIN_ETHEREUM_TOKEN"
+    echo "SCORECHAIN_TRON_TOKEN: $SCORECHAIN_TRON_TOKEN"
+    echo "SCORECHAIN_BNB_TOKEN: $SCORECHAIN_BNB_TOKEN"
+else
+    echo "KYT Service is disabled."
+fi
 
 #echo "Instance name"
 INSTANCE_NAME='opencex'
