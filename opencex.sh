@@ -262,17 +262,17 @@ source "$(dirname "$0")/config.env"
 # Sử dụng các biến đã được đọc từ config.env
 
 
-if [ "$ENABLED_WON" = "True" ]; then    
+if [ "$ENABLED_MATIC" = "True" ]; then    
  
-    export ENABLED_WON
-    export COMMON_TASKS_WON
-    export WONSCAN_KEY
-    export WON_SAFE_ADDR
+    export ENABLED_MATIC
+    export COMMON_TASKS_MATIC
+    export POLYGONSCAN_KEY
+    export MATIC_SAFE_ADDR
 
-    echo "ENABLED_WON: $ENABLED_WON"
-    echo "COMMON_TASKS_WON: $COMMON_TASKS_WON"
-    echo "WONSCAN_KEY: $WONSCAN_KEY"
-    echo "WON_SAFE_ADDR: $WON_SAFE_ADDR"
+    echo "ENABLED_MATIC: $ENABLED_MATIC"
+    echo "COMMON_TASKS_MATIC: $COMMON_TASKS_MATIC"
+    echo "POLYGONSCAN_KEY: $POLYGONSCAN_KEY"
+    echo "MATIC_SAFE_ADDR: $MATIC_SAFE_ADDR"
 else
     echo "WON Blockchain support is disabled."
 fi
@@ -477,7 +477,7 @@ export REDIS_PASS
 BOTS_API_BASE_URL=http://opencex:8080
 export BOTS_API_BASE_URL
 
-# key for encrypting private keys in the database (generated autowonally)
+# key for encrypting private keys in the database (generated automatically)
 CRYPTO_KEY=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-12};echo;)
 export CRYPTO_KEY
 
@@ -561,7 +561,7 @@ chmod 777 caddy_data postgresql_data redis_data rabbitmq_data rabbitmq_logs bitc
 docker network create caddy
 
 cat << EOF > docker-compose.yml
-version: "3.7"
+version: "3.9"
 networks:
   caddy:
     external: true
@@ -607,7 +607,7 @@ services:
     opencex-cel:
      container_name: opencex-cel
      image: opencex:latest
-     command: celery -A exchange worker -l info -n general -B -s /tmp/cebeat.db -X btc,eth_new_blocks,eth_deposits,eth_payouts,eth_check_balances,eth_accumulations,eth_tokens_accumulations,eth_send_gas,bnb_new_blocks,bnb_deposits,bnb_payouts,bnb_check_balances,bnb_accumulations,bnb_tokens_accumulations,bnb_send_gas,trx_new_blocks,trx_deposits,trx_payouts,trx_check_balances,trx_accumulations,trx_tokens_accumulations,won_new_blocks,won_deposits,won_payouts,won_check_balances,won_accumulations,won_tokens_accumulations
+     command: celery -A exchange worker -l info -n general -B -s /tmp/cebeat.db -X btc,eth_new_blocks,eth_deposits,eth_payouts,eth_check_balances,eth_accumulations,eth_tokens_accumulations,eth_send_gas,bnb_new_blocks,bnb_deposits,bnb_payouts,bnb_check_balances,bnb_accumulations,bnb_tokens_accumulations,bnb_send_gas,trx_new_blocks,trx_deposits,trx_payouts,trx_check_balances,trx_accumulations,trx_tokens_accumulations,matic_new_blocks,matic_deposits,matic_payouts,matic_check_balances,matic_accumulations,matic_tokens_accumulations
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -718,10 +718,10 @@ services:
       - bitcoind
       - opencex
 
-    opencex-won-blocks:
-     container_name: opencex-won-blocks
+    opencex-matic-blocks:
+     container_name: opencex-matic-blocks
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n won_new_blocks -Q won_new_blocks -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n matic_new_blocks -Q matic_new_blocks -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -740,7 +740,7 @@ services:
     opencex-deposits:
      container_name: opencex-deposits
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n deposits -Q trx_deposits,bnb_deposits,eth_deposits,won_deposits -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n deposits -Q trx_deposits,bnb_deposits,eth_deposits,matic_deposits -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -759,7 +759,7 @@ services:
     opencex-payouts:
      container_name: opencex-payouts
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n payouts -Q trx_payouts,eth_payouts,bnb_payouts,won_payouts -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n payouts -Q trx_payouts,eth_payouts,bnb_payouts,matic_payouts -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -778,7 +778,7 @@ services:
     opencex-balances:
      container_name: opencex-balances
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n check_balances -Q trx_check_balances,bnb_check_balances,eth_check_balances,won_check_balances -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n check_balances -Q trx_check_balances,bnb_check_balances,eth_check_balances,matic_check_balances -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -797,7 +797,7 @@ services:
     opencex-coin-accumulations:
      container_name: opencex-coin-accumulations
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n coin_accumulations -Q trx_accumulations,bnb_accumulations,eth_accumulations,won_accumulations -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n coin_accumulations -Q trx_accumulations,bnb_accumulations,eth_accumulations,matic_accumulations -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -816,7 +816,7 @@ services:
     opencex-token-accumulations:
      container_name: opencex-token-accumulations
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n tokens_accumulations -Q trx_tokens_accumulations,bnb_tokens_accumulations,eth_tokens_accumulations,won_tokens_accumulations -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n tokens_accumulations -Q trx_tokens_accumulations,bnb_tokens_accumulations,eth_tokens_accumulations,matic_tokens_accumulations -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -835,7 +835,7 @@ services:
     opencex-gas:
      container_name: opencex-gas
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n send_gas -Q trx_send_gas,bnb_send_gas,eth_send_gas,won_send_gas -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n send_gas -Q trx_send_gas,bnb_send_gas,eth_send_gas,matic_send_gas -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
