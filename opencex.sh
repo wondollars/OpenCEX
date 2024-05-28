@@ -477,7 +477,7 @@ export REDIS_PASS
 BOTS_API_BASE_URL=http://opencex:8080
 export BOTS_API_BASE_URL
 
-# key for encrypting private keys in the database (generated automatically)
+# key for encrypting private keys in the database (generated autowonally)
 CRYPTO_KEY=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-12};echo;)
 export CRYPTO_KEY
 
@@ -561,7 +561,7 @@ chmod 777 caddy_data postgresql_data redis_data rabbitmq_data rabbitmq_logs bitc
 docker network create caddy
 
 cat << EOF > docker-compose.yml
-version: "3.9"
+version: "3.7"
 networks:
   caddy:
     external: true
