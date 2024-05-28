@@ -20,10 +20,10 @@ fi
 
 mkdir /app/opencex -p
 cd /app/opencex || exit
-git clone  https://github.com/Wondollars/OpenCEX-backend.git ./backend
-git clone  https://github.com/Wondollars/OpenCEX-frontend.git ./frontend
-git clone  https://github.com/Wondollars/OpenCEX-static.git ./nuxt
-git clone  https://github.com/Wondollars/OpenCEX-JS-admin.git ./admin
+git clone  https://github.com/Polygant/OpenCEX-backend.git ./backend
+git clone  https://github.com/Polygant/OpenCEX-frontend.git ./frontend
+git clone  https://github.com/Polygant/OpenCEX-static.git ./nuxt
+git clone  https://github.com/Polygant/OpenCEX-JS-admin.git ./admin
 
 echo "`cat <<YOLLOPUKKI
 
@@ -212,41 +212,6 @@ fi
 
 
 echo "`cat <<YOLLOPUKKI
-
-=======================================================================================
- STEP 5.1 of 12. WON BLOCKCHAIN, WON and USDT WON SUPPORT. (optional)
-=======================================================================================
-
-You can set ENABLED_WON: False or leave it blank to turn it off.
-
-WONSCAN_KEY* - used for the Won blockchain data
-WON_SAFE_ADDR* - Won address. All WON and ERC-20 (WON) deposits go there
----------------------------------------------------------------------------------------
-
-YOLLOPUKKI`"
-
-source "$(dirname "$0")/config.env"
-
-# Sử dụng các biến đã được đọc từ config.env
-
-
-if [ "$ENABLED_WON" = "True" ]; then    
- 
-    export ENABLED_WON
-    export COMMON_TASKS_WON
-    export WONSCAN_KEY
-    export MATIC_SAFE_ADDR
-
-    echo "ENABLED_WON: $ENABLED_WON"
-    echo "COMMON_TASKS_WON: $COMMON_TASKS_WON"
-    echo "WONSCAN_KEY: $WONSCAN_KEY"
-    echo "WON_SAFE_ADDR: $WON_SAFE_ADDR"
-else
-    echo "WON Blockchain support is disabled."
-fi
-
-echo "`cat <<YOLLOPUKKI
-
 
 =======================================================================================
      STEP 6 of 12. TRON BLOCKCHAIN, TRX and USDT TRC-20 SUPPORT. (optional)
