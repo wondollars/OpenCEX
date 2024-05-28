@@ -235,7 +235,7 @@ if [ "$ENABLED_WON" = "True" ]; then
     export ENABLED_WON
     export COMMON_TASKS_WON
     export WONSCAN_KEY
-    export MATIC_SAFE_ADDR
+    export WON_SAFE_ADDR
 
     echo "ENABLED_WON: $ENABLED_WON"
     echo "COMMON_TASKS_WON: $COMMON_TASKS_WON"
