@@ -948,7 +948,8 @@ services:
       - nuxt
       - caddy
       - bitcoind
-      - opencex.
+      - opencex
+
     opencex-core-blocks:
      container_name: opencex-core-blocks
      image: opencex:latest
@@ -967,6 +968,7 @@ services:
       - caddy
       - bitcoind
       - opencex
+
     opencex-fuse-blocks:
      container_name: opencex-fuse-blocks
      image: opencex:latest
@@ -985,6 +987,7 @@ services:
       - caddy
       - bitcoind
       - opencex
+      
     opencex-avax-blocks:
      container_name: opencex-avax-blocks
      image: opencex:latest
