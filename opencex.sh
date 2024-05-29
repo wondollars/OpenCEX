@@ -212,6 +212,9 @@ fi
 
 
 echo "`cat <<YOLLOPUKKI
+ 
+
+
 
 =======================================================================================
      STEP 6 of 12. TRON BLOCKCHAIN, TRX and USDT TRC-20 SUPPORT. (optional)
@@ -312,6 +315,143 @@ else
 fi
 
 echo "`cat <<YOLLOPUKKI
+
+=======================================================================================
+ STEP 7.1 of 12. WON BLOCKCHAIN, WON and USDT WON SUPPORT. (optional)
+=======================================================================================
+
+You can set ENABLED_WON: False or leave it blank to turn it off.
+
+WONSCAN_KEY* - used for the Won blockchain data
+WON_SAFE_ADDR* - Won address. All WON and ERC-20 (WON) deposits go there
+---------------------------------------------------------------------------------------
+
+YOLLOPUKKI`"
+
+source "$(dirname "$0")/config.env"
+
+# Sử dụng các biến đã được đọc từ config.env
+
+
+if [ "$ENABLED_CELO" = "True" ]; then    
+ 
+    export ENABLED_CELO
+    export COMMON_TASKS_CELO
+    export CELOSCAN_KEY
+    export CELO_SAFE_ADDR
+
+    echo "ENABLED_CELO: $ENABLED_CELO"
+    echo "COMMON_TASKS_CELO: $COMMON_TASKS_CELO"
+    echo "CELOSCAN_KEY: $CELOSCAN_KEY"
+    echo "CELO_SAFE_ADDR: $CELO_SAFE_ADDR"
+else
+    echo "WON Blockchain support is disabled."
+fi
+
+echo "`cat <<YOLLOPUKKI
+
+=======================================================================================
+ STEP 7.1 of 12. WON BLOCKCHAIN, WON and USDT WON SUPPORT. (optional)
+=======================================================================================
+
+You can set ENABLED_WON: False or leave it blank to turn it off.
+
+WONSCAN_KEY* - used for the Won blockchain data
+WON_SAFE_ADDR* - Won address. All WON and ERC-20 (WON) deposits go there
+---------------------------------------------------------------------------------------
+
+YOLLOPUKKI`"
+
+source "$(dirname "$0")/config.env"
+
+# Sử dụng các biến đã được đọc từ config.env
+
+
+if [ "$ENABLED_CORE" = "True" ]; then    
+ 
+    export ENABLED_CORE
+    export COMMON_TASKS_CORE
+    export CORESCAN_KEY
+    export CORE_SAFE_ADDR
+
+    echo "ENABLED_CORE: $ENABLED_CORE"
+    echo "COMMON_TASKS_CORE: $COMMON_TASKS_CORE"
+    echo "CORESCAN_KEY: $CORESCAN_KEY"
+    echo "CORE_SAFE_ADDR: $CORE_SAFE_ADDR"
+else
+    echo "WON Blockchain support is disabled."
+fi
+
+echo "`cat <<YOLLOPUKKI
+
+=======================================================================================
+ STEP 7.1 of 12. WON BLOCKCHAIN, WON and USDT WON SUPPORT. (optional)
+=======================================================================================
+
+You can set ENABLED_WON: False or leave it blank to turn it off.
+
+WONSCAN_KEY* - used for the Won blockchain data
+WON_SAFE_ADDR* - Won address. All WON and ERC-20 (WON) deposits go there
+---------------------------------------------------------------------------------------
+
+YOLLOPUKKI`"
+
+source "$(dirname "$0")/config.env"
+
+# Sử dụng các biến đã được đọc từ config.env
+
+
+if [ "$ENABLED_FUSE" = "True" ]; then    
+ 
+    export ENABLED_FUSE
+    export COMMON_TASKS_FUSE
+    export FUSESCAN_KEY
+    export FUSE_SAFE_ADDR
+
+    echo "ENABLED_FUSE: $ENABLED_FUSE"
+    echo "COMMON_TASKS_FUSE: $COMMON_TASKS_FUSE"
+    echo "FUSESCAN_KEY: $FUSESCAN_KEY"
+    echo "FUSE_SAFE_ADDR: $FUSE_SAFE_ADDR"
+else
+    echo "WON Blockchain support is disabled."
+fi
+
+echo "`cat <<YOLLOPUKKI
+
+=======================================================================================
+ STEP 7.1 of 12. WON BLOCKCHAIN, WON and USDT WON SUPPORT. (optional)
+=======================================================================================
+
+You can set ENABLED_WON: False or leave it blank to turn it off.
+
+WONSCAN_KEY* - used for the Won blockchain data
+WON_SAFE_ADDR* - Won address. All WON and ERC-20 (WON) deposits go there
+---------------------------------------------------------------------------------------
+
+YOLLOPUKKI`"
+
+source "$(dirname "$0")/config.env"
+
+# Sử dụng các biến đã được đọc từ config.env
+
+
+if [ "$ENABLED_AVAX" = "True" ]; then    
+ 
+    export ENABLED_AVAX
+    export COMMON_TASKS_AVAX
+    export AVAXSCAN_KEY
+    export AVAX_SAFE_ADDR
+
+    echo "ENABLED_AVAX: $ENABLED_AVAX"
+    echo "COMMON_TASKS_AVAX: $COMMON_TASKS_AVAX"
+    echo "AVAXSCAN_KEY: $AVAXSCAN_KEY"
+    echo "AVAX_SAFE_ADDR: $AVAX_SAFE_ADDR"
+else
+    echo "WON Blockchain support is disabled."
+fi
+
+echo "`cat <<YOLLOPUKKI
+
 
 ===========================================================
      STEP 8 OF 12. EMAIL SERVICE
@@ -791,10 +931,83 @@ services:
       - bitcoind
       - opencex
 
+    opencex-celo-blocks:
+     container_name: opencex-celo-blocks
+     image: opencex:latest
+     command: bash -c "celery -A exchange worker -l info -n celo_new_blocks -Q celo_new_blocks -c 1 "
+     restart: always
+     volumes:
+      - /app/opencex/backend:/app
+     networks:
+      - caddy
+     depends_on:
+      - postgresql
+      - redis
+      - rabbitmq
+      - frontend
+      - nuxt
+      - caddy
+      - bitcoind
+      - opencex.
+    opencex-core-blocks:
+     container_name: opencex-core-blocks
+     image: opencex:latest
+     command: bash -c "celery -A exchange worker -l info -n core_new_blocks -Q core_new_blocks -c 1 "
+     restart: always
+     volumes:
+      - /app/opencex/backend:/app
+     networks:
+      - caddy
+     depends_on:
+      - postgresql
+      - redis
+      - rabbitmq
+      - frontend
+      - nuxt
+      - caddy
+      - bitcoind
+      - opencex
+    opencex-fuse-blocks:
+     container_name: opencex-fuse-blocks
+     image: opencex:latest
+     command: bash -c "celery -A exchange worker -l info -n fuse_new_blocks -Q fuse_new_blocks -c 1 "
+     restart: always
+     volumes:
+      - /app/opencex/backend:/app
+     networks:
+      - caddy
+     depends_on:
+      - postgresql
+      - redis
+      - rabbitmq
+      - frontend
+      - nuxt
+      - caddy
+      - bitcoind
+      - opencex
+    opencex-avax-blocks:
+     container_name: opencex-avax-blocks
+     image: opencex:latest
+     command: bash -c "celery -A exchange worker -l info -n avax_new_blocks -Q avax_new_blocks -c 1 "
+     restart: always
+     volumes:
+      - /app/opencex/backend:/app
+     networks:
+      - caddy
+     depends_on:
+      - postgresql
+      - redis
+      - rabbitmq
+      - frontend
+      - nuxt
+      - caddy
+      - bitcoind
+      - opencex
+
     opencex-deposits:
      container_name: opencex-deposits
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n deposits -Q trx_deposits,bnb_deposits,eth_deposits,matic_deposits,won_deposits -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n deposits -Q trx_deposits,bnb_deposits,eth_deposits,matic_deposits,won_deposits,celo_deposits,core_deposits,fuse_deposits,avax_deposits -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -813,7 +1026,7 @@ services:
     opencex-payouts:
      container_name: opencex-payouts
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n payouts -Q trx_payouts,eth_payouts,bnb_payouts,matic_payouts,won_payouts -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n payouts -Q trx_payouts,eth_payouts,bnb_payouts,matic_payouts,won_payouts,celo_payouts,core_payouts,fuse_payouts,avax_payouts -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -832,7 +1045,7 @@ services:
     opencex-balances:
      container_name: opencex-balances
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n check_balances -Q trx_check_balances,bnb_check_balances,eth_check_balances,matic_check_balances,won_check_balances -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n check_balances -Q trx_check_balances,bnb_check_balances,eth_check_balances,matic_check_balances,won_check_balances,celo_check_balances,core_check_balances,fuse_check_balances,avax_check_balances -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -851,7 +1064,7 @@ services:
     opencex-coin-accumulations:
      container_name: opencex-coin-accumulations
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n coin_accumulations -Q trx_accumulations,bnb_accumulations,eth_accumulations,matic_accumulations,won_accumulations -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n coin_accumulations -Q trx_accumulations,bnb_accumulations,eth_accumulations,matic_accumulations,won_accumulations,celo_accumulations,core_accumulations,fuse_accumulations,avax_accumulations -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -870,7 +1083,7 @@ services:
     opencex-token-accumulations:
      container_name: opencex-token-accumulations
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n tokens_accumulations -Q trx_tokens_accumulations,bnb_tokens_accumulations,eth_tokens_accumulations,matic_tokens_accumulations,won_tokens_accumulations -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n tokens_accumulations -Q trx_tokens_accumulations,bnb_tokens_accumulations,eth_tokens_accumulations,matic_tokens_accumulations,won_tokens_accumulations,celo_tokens_accumulations,core_tokens_accumulations,fuse_tokens_accumulations,avax_tokens_accumulations -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -889,7 +1102,7 @@ services:
     opencex-gas:
      container_name: opencex-gas
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n send_gas -Q trx_send_gas,bnb_send_gas,eth_send_gas,matic_send_gas,won_send_gas -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n send_gas -Q trx_send_gas,bnb_send_gas,eth_send_gas,matic_send_gas,won_send_gas,celo_send_gas,core_send_gas,fuse_send_gas,avax_send_gas -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
