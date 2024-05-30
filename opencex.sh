@@ -542,6 +542,13 @@ fi
 echo "`cat <<YOLLOPUKKI
 
 ===========================================================
+     STEP CRYPTOCOMPARE_API_KEY
+===========================================================
+source "$(dirname "$0")/config.env"
+export CRYPTOCOMPARE_API_KEY
+echo "CRYPTOCOMPARE_API_KEY: $CRYPTOCOMPARE_API_KEY"
+
+===========================================================
      STEP 11 OF 12. KYT PROVIDER SCORECHAIN (OPTIONAL)
 ===========================================================
 
