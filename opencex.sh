@@ -469,12 +469,15 @@ export EMAIL_HOST_USER
 export EMAIL_HOST_PASSWORD
 export EMAIL_PORT
 export EMAIL_USE_TLS
+export CRYPTOCOMPARE_API_KEY
 
 echo "EMAIL_HOST: $EMAIL_HOST"
 echo "EMAIL_HOST_USER: $EMAIL_HOST_USER"
 echo "EMAIL_HOST_PASSWORD: $EMAIL_HOST_PASSWORD"
 echo "EMAIL_PORT: $EMAIL_PORT"
 echo "EMAIL_USE_TLS: $EMAIL_USE_TLS"
+echo "CRYPTOCOMPARE_API_KEY: $CRYPTOCOMPARE_API_KEY"
+
 
 
 echo "`cat <<YOLLOPUKKI
@@ -541,12 +544,7 @@ fi
 
 echo "`cat <<YOLLOPUKKI
 
-===========================================================
-     STEP CRYPTOCOMPARE_API_KEY
-===========================================================
-source "$(dirname "$0")/config.env"
-export CRYPTOCOMPARE_API_KEY
-echo "CRYPTOCOMPARE_API_KEY: $CRYPTOCOMPARE_API_KEY"
+ 
 
 ===========================================================
      STEP 11 OF 12. KYT PROVIDER SCORECHAIN (OPTIONAL)
