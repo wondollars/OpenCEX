@@ -462,19 +462,19 @@ source "$(dirname "$0")/config.env"
 # Sử dụng các biến đã được đọc từ config.env
 
 
-if [ "$ENABLED_XDAI" = "True" ]; then    
+if [ "$ENABLED_DAI" = "True" ]; then    
  
-    export ENABLED_XDAI
-    export COMMON_TASKS_XDAI
-    export XDAISCAN_KEY
-    export XDAI_SAFE_ADDR
+    export ENABLED_DAI
+    export COMMON_TASKS_DAI
+    export DAISCAN_KEY
+    export DAI_SAFE_ADDR
 
-    echo "ENABLED_XDAI: $ENABLED_XDAI"
-    echo "COMMON_TASKS_XDAI: $COMMON_TASKS_XDAI"
-    echo "XDAISCAN_KEY: $XDAISCAN_KEY"
-    echo "XDAI_SAFE_ADDR: $XDAI_SAFE_ADDR"
+    echo "ENABLED_DAI: $ENABLED_DAI"
+    echo "COMMON_TASKS_DAI: $COMMON_TASKS_DAI"
+    echo "DAISCAN_KEY: $DAISCAN_KEY"
+    echo "DAI_SAFE_ADDR: $DAI_SAFE_ADDR"
 else
-    echo "XDAI Blockchain support is disabled."
+    echo "DAI Blockchain support is disabled."
 fi
 
 echo "`cat <<YOLLOPUKKI
