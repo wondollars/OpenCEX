@@ -452,6 +452,78 @@ fi
 
 echo "`cat <<YOLLOPUKKI
 
+YOLLOPUKKI`"
+
+source "$(dirname "$0")/config.env"
+
+# Sử dụng các biến đã được đọc từ config.env
+
+
+if [ "$ENABLED_XDAI" = "True" ]; then    
+ 
+    export ENABLED_XDAI
+    export COMMON_TASKS_XDAI
+    export XDAISCAN_KEY
+    export XDAI_SAFE_ADDR
+
+    echo "ENABLED_XDAI: $ENABLED_XDAI"
+    echo "COMMON_TASKS_XDAI: $COMMON_TASKS_XDAI"
+    echo "XDAISCAN_KEY: $XDAISCAN_KEY"
+    echo "XDAI_SAFE_ADDR: $XDAI_SAFE_ADDR"
+else
+    echo "XDAI Blockchain support is disabled."
+fi
+
+echo "`cat <<YOLLOPUKKI
+
+YOLLOPUKKI`"
+
+source "$(dirname "$0")/config.env"
+
+# Sử dụng các biến đã được đọc từ config.env
+
+
+if [ "$ENABLED_FTM" = "True" ]; then    
+ 
+    export ENABLED_FTM
+    export COMMON_TASKS_FTM
+    export FTMSCAN_KEY
+    export FTM_SAFE_ADDR
+
+    echo "ENABLED_FTM: $ENABLED_FTM"
+    echo "COMMON_TASKS_FTM: $COMMON_TASKS_FTM"
+    echo "FTMSCAN_KEY: $FTMSCAN_KEY"
+    echo "FTM_SAFE_ADDR: $FTM_SAFE_ADDR"
+else
+    echo "FTM Blockchain support is disabled."
+fi
+
+echo "`cat <<YOLLOPUKKI
+
+YOLLOPUKKI`"
+
+source "$(dirname "$0")/config.env"
+
+# Sử dụng các biến đã được đọc từ config.env
+
+
+if [ "$ENABLED_ETC" = "True" ]; then    
+ 
+    export ENABLED_ETC
+    export COMMON_TASKS_ETC
+    export ETCSCAN_KEY
+    export ETC_SAFE_ADDR
+
+    echo "ENABLED_ETC: $ENABLED_ETC"
+    echo "COMMON_TASKS_ETC: $COMMON_TASKS_ETC"
+    echo "ETCSCAN_KEY: $ETCSCAN_KEY"
+    echo "ETC_SAFE_ADDR: $ETC_SAFE_ADDR"
+else
+    echo "ETC Blockchain support is disabled."
+fi
+
+echo "`cat <<YOLLOPUKKI
+
 
 ===========================================================
      STEP 8 OF 12. EMAIL SERVICE
@@ -746,295 +818,352 @@ networks:
     external: true
 services:
     opencex:
-     container_name: opencex
-     image: opencex:latest
-     command: gunicorn  exchange.wsgi:application   -b 0.0.0.0:8080 -w 2 --access-logfile - --error-logfile -
-#     entrypoint: tail -f /dev/null
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
+      container_name: opencex
+      image: opencex:latest
+      command: gunicorn  exchange.wsgi:application   -b 0.0.0.0:8080 -w 2 --access-logfile - --error-logfile -
+  #     entrypoint: tail -f /dev/null
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
 
     opencex-wss:
-     container_name: opencex-wss
-     image: opencex:latest
-     command: daphne -b 0.0.0.0 exchange.asgi:application  --ping-interval 600 --ping-timeout 600
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-wss
+      image: opencex:latest
+      command: daphne -b 0.0.0.0 exchange.asgi:application  --ping-interval 600 --ping-timeout 600
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
     opencex-cel:
-     container_name: opencex-cel
-     image: opencex:latest
-     command: celery -A exchange worker -l info -n general -B -s /tmp/cebeat.db -X btc,eth_new_blocks,eth_deposits,eth_payouts,eth_check_balances,eth_accumulations,eth_tokens_accumulations,eth_send_gas,bnb_new_blocks,bnb_deposits,bnb_payouts,bnb_check_balances,bnb_accumulations,bnb_tokens_accumulations,bnb_send_gas,trx_new_blocks,trx_deposits,trx_payouts,trx_check_balances,trx_accumulations,trx_tokens_accumulations,matic_new_blocks,matic_deposits,matic_payouts,matic_check_balances,matic_accumulations,matic_tokens_accumulations,won_new_blocks,won_deposits,won_payouts,won_check_balances,won_accumulations,won_tokens_accumulations
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-cel
+      image: opencex:latest
+      command: celery -A exchange worker -l info -n general -B -s /tmp/cebeat.db -X btc,eth_new_blocks,eth_deposits,eth_payouts,eth_check_balances,eth_accumulations,eth_tokens_accumulations,eth_send_gas,bnb_new_blocks,bnb_deposits,bnb_payouts,bnb_check_balances,bnb_accumulations,bnb_tokens_accumulations,bnb_send_gas,trx_new_blocks,trx_deposits,trx_payouts,trx_check_balances,trx_accumulations,trx_tokens_accumulations,matic_new_blocks,matic_deposits,matic_payouts,matic_check_balances,matic_accumulations,matic_tokens_accumulations,won_new_blocks,won_deposits,won_payouts,won_check_balances,won_accumulations,won_tokens_accumulations,avax_new_blocks,avax_deposits,avax_payouts,avax_check_balances,avax_accumulations,avax_tokens_accumulations,core_new_blocks,core_deposits,core_payouts,core_check_balances,core_accumulations,core_tokens_accumulations,,celo_new_blocks,celo_deposits,celo_payouts,celo_check_balances,celo_accumulations,celo_tokens_accumulations,fuse_new_blocks,fuse_deposits,fuse_payouts,fuse_check_balances,fuse_accumulations,fuse_tokens_accumulations,etc_new_blocks,etc_deposits,etc_payouts,etc_check_balances,etc_accumulations,etc_tokens_accumulations,ftm_new_blocks,ftm_deposits,ftm_payouts,ftm_check_balances,ftm_accumulations,ftm_tokens_accumulations,xdai_new_blocks,xdai_deposits,xdai_payouts,xdai_check_balances,xdai_accumulations,xdai_tokens_accumulations
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
     opencex-stack:
-     container_name: opencex-stack
-     image: opencex:latest
-     command: python bin/stack.py
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-stack
+      image: opencex:latest
+      command: python bin/stack.py
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
     opencex-btc:
-     container_name: opencex-btc
-     image: opencex:latest
-     command: /app/manage.py btcworker
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-btc
+      image: opencex:latest
+      command: /app/manage.py btcworker
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
     opencex-eth-blocks:
-     container_name: opencex-eth-blocks
-     image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n eth_new_blocks -Q eth_new_blocks -c 1 "
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-eth-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n eth_new_blocks -Q eth_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
     opencex-bnb-blocks:
-     container_name: opencex-bnb-blocks
-     image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n bnb_new_blocks -Q bnb_new_blocks -c 1 "
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-bnb-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n bnb_new_blocks -Q bnb_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
     opencex-trx-blocks:
-     container_name: opencex-trx-blocks
-     image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n trx_new_blocks -Q trx_new_blocks -c 1 "
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-trx-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n trx_new_blocks -Q trx_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
     opencex-matic-blocks:
-     container_name: opencex-matic-blocks
-     image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n matic_new_blocks -Q matic_new_blocks -c 1 "
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-matic-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n matic_new_blocks -Q matic_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
 
     opencex-won-blocks:
-     container_name: opencex-won-blocks
-     image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n won_new_blocks -Q won_new_blocks -c 1 "
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-won-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n won_new_blocks -Q won_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
     opencex-celo-blocks:
-     container_name: opencex-celo-blocks
-     image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n celo_new_blocks -Q celo_new_blocks -c 1 "
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-celo-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n celo_new_blocks -Q celo_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
     opencex-core-blocks:
-     container_name: opencex-core-blocks
-     image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n core_new_blocks -Q core_new_blocks -c 1 "
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-core-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n core_new_blocks -Q core_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
     opencex-fuse-blocks:
-     container_name: opencex-fuse-blocks
-     image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n fuse_new_blocks -Q fuse_new_blocks -c 1 "
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-fuse-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n fuse_new_blocks -Q fuse_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
       
     opencex-avax-blocks:
-     container_name: opencex-avax-blocks
-     image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n avax_new_blocks -Q avax_new_blocks -c 1 "
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
+      container_name: opencex-avax-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n avax_new_blocks -Q avax_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
+
+    opencex-xdai-blocks:
+      container_name: opencex-xdai-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n xdai_new_blocks -Q xdai_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
+
+    opencex-ftm-blocks:
+      container_name: opencex-ftm-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n ftm_new_blocks -Q ftm_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencexh
+    
+    opencex-etc-blocks:
+      container_name: opencex-etc-blocks
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n etc_new_blocks -Q etc_new_blocks -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
       - opencex
 
     opencex-deposits:
-     container_name: opencex-deposits
-     image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n deposits -Q trx_deposits,bnb_deposits,eth_deposits,matic_deposits,won_deposits,celo_deposits,core_deposits,fuse_deposits,avax_deposits -c 1 "
-     restart: always
-     volumes:
-      - /app/opencex/backend:/app
-     networks:
-      - caddy
-     depends_on:
-      - postgresql
-      - redis
-      - rabbitmq
-      - frontend
-      - nuxt
-      - caddy
-      - bitcoind
-      - opencex
+      container_name: opencex-deposits
+      image: opencex:latest
+      command: bash -c "celery -A exchange worker -l info -n deposits -Q trx_deposits,bnb_deposits,eth_deposits,matic_deposits,won_deposits,celo_deposits,core_deposits,fuse_deposits,avax_deposits,xdai_deposits,etc_deposits,ftm_deposits -c 1 "
+      restart: always
+      volumes:
+        - /app/opencex/backend:/app
+      networks:
+        - caddy
+      depends_on:
+        - postgresql
+        - redis
+        - rabbitmq
+        - frontend
+        - nuxt
+        - caddy
+        - bitcoind
+        - opencex
 
     opencex-payouts:
      container_name: opencex-payouts
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n payouts -Q trx_payouts,eth_payouts,bnb_payouts,matic_payouts,won_payouts,celo_payouts,core_payouts,fuse_payouts,avax_payouts -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n payouts -Q trx_payouts,eth_payouts,bnb_payouts,matic_payouts,won_payouts,celo_payouts,core_payouts,fuse_payouts,avax_payouts,ftm_payouts,xdai_payouts,etc_payouts -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -1053,7 +1182,7 @@ services:
     opencex-balances:
      container_name: opencex-balances
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n check_balances -Q trx_check_balances,bnb_check_balances,eth_check_balances,matic_check_balances,won_check_balances,celo_check_balances,core_check_balances,fuse_check_balances,avax_check_balances -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n check_balances -Q trx_check_balances,bnb_check_balances,eth_check_balances,matic_check_balances,won_check_balances,celo_check_balances,core_check_balances,fuse_check_balances,avax_check_balances,etc_check_balances,ftm_check_balances,xdai_check_balances -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -1072,7 +1201,7 @@ services:
     opencex-coin-accumulations:
      container_name: opencex-coin-accumulations
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n coin_accumulations -Q trx_accumulations,bnb_accumulations,eth_accumulations,matic_accumulations,won_accumulations,celo_accumulations,core_accumulations,fuse_accumulations,avax_accumulations -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n coin_accumulations -Q trx_accumulations,bnb_accumulations,eth_accumulations,matic_accumulations,won_accumulations,celo_accumulations,core_accumulations,fuse_accumulations,avax_accumulations,etc_accumulations,ftm_accumulations,xdai_accumulations -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -1091,7 +1220,7 @@ services:
     opencex-token-accumulations:
      container_name: opencex-token-accumulations
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n tokens_accumulations -Q trx_tokens_accumulations,bnb_tokens_accumulations,eth_tokens_accumulations,matic_tokens_accumulations,won_tokens_accumulations,celo_tokens_accumulations,core_tokens_accumulations,fuse_tokens_accumulations,avax_tokens_accumulations -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n tokens_accumulations -Q trx_tokens_accumulations,bnb_tokens_accumulations,eth_tokens_accumulations,matic_tokens_accumulations,won_tokens_accumulations,celo_tokens_accumulations,core_tokens_accumulations,fuse_tokens_accumulations,avax_tokens_accumulations,etc_tokens_accumulations,ftm_tokens_accumulations,xdai_tokens_accumulations -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
@@ -1110,7 +1239,7 @@ services:
     opencex-gas:
      container_name: opencex-gas
      image: opencex:latest
-     command: bash -c "celery -A exchange worker -l info -n send_gas -Q trx_send_gas,bnb_send_gas,eth_send_gas,matic_send_gas,won_send_gas,celo_send_gas,core_send_gas,fuse_send_gas,avax_send_gas -c 1 "
+     command: bash -c "celery -A exchange worker -l info -n send_gas -Q trx_send_gas,bnb_send_gas,eth_send_gas,matic_send_gas,won_send_gas,celo_send_gas,core_send_gas,fuse_send_gas,avax_send_gas,etc_send_gas,ftm_send_gas,xdai_send_gas -c 1 "
      restart: always
      volumes:
       - /app/opencex/backend:/app
