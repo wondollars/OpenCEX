@@ -1120,7 +1120,7 @@ services:
         - nuxt
         - caddy
         - bitcoind
-        - opencexh
+        - opencex
     
     opencex-etc-blocks:
       container_name: opencex-etc-blocks
@@ -1139,7 +1139,7 @@ services:
         - nuxt
         - caddy
         - bitcoind
-      - opencex
+        - opencex
 
     opencex-deposits:
       container_name: opencex-deposits
