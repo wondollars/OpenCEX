@@ -452,6 +452,9 @@ fi
 
 echo "`cat <<YOLLOPUKKI
 
+===========================================================
+===========================================================
+
 YOLLOPUKKI`"
 
 source "$(dirname "$0")/config.env"
@@ -476,6 +479,9 @@ fi
 
 echo "`cat <<YOLLOPUKKI
 
+===========================================================
+===========================================================
+
 YOLLOPUKKI`"
 
 source "$(dirname "$0")/config.env"
@@ -499,6 +505,9 @@ else
 fi
 
 echo "`cat <<YOLLOPUKKI
+
+===========================================================
+===========================================================
 
 YOLLOPUKKI`"
 
@@ -1140,7 +1149,7 @@ services:
         - caddy
         - bitcoind
         - opencex
-
+    
     opencex-deposits:
       container_name: opencex-deposits
       image: opencex:latest
